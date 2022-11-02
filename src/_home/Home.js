@@ -43,8 +43,16 @@ const Home = () => {
     <div className="home">
       <h2>Home Page</h2>
      <BlogList blogs={blogs} 
-     title={"Number of blogs found " + noBlogs} 
-     end={"Next page"}/>
+     top={"Number of blogs found " + noBlogs} 
+     bottom={"Next page"}/>
+
+     <BlogList blogs={blogs.filter ((blog) => blog.author === 'mario')}
+     top="Blogs written by Mario"     
+     />
+
+     <BlogList blogs={blogs.filter ((blog) => blog.author === 'yoshi')}
+     top="Blogs written by yoshi"
+     />
 
       {/*         <button onClick={clickButton}>Click me</button>
 

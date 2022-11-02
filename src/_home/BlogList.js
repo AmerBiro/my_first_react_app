@@ -1,18 +1,19 @@
-const BlogList = (props) => {
-  const blogs = props.blogs;
-  const title = props.title;
-  const end = props.end;
+const BlogList = ({blogs, top, bottom}) => {
+// const BlogList = (props) => {
+  // const blogs = props.blogs;
+  // const top = props.top;
+  // const bottom = props.bottom;
 
   return (
     <div className="blog-list">
-      <h2>{title}</h2>
+      <h3>{top}</h3>
       {blogs.map((blog) => (
         <div className="blog-preview" key={blog.id}>
           <h2>{blog.title}</h2>
-          <p>written by {blog.author}</p>}
+          <p>written by {blog.author}</p>
         </div>
       ))}
-      <button>{end}</button>
+      {/* <button>{bottom}</button> */}
     </div>
   );
 };
