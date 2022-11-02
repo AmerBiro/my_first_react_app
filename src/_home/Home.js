@@ -31,6 +31,7 @@ const Home = () => {
 
   const [blogs, setBlogs] = useState(null);
   const [isPending, setPending] = useState(true)
+  const [error, setError] = useState(null)
   /*       [
        { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
        { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
@@ -50,13 +51,20 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {
       fetch("http://localhost:8000/blogs")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setBlogs(data);
-        setPending(false)
-      });
+        .then((res) => {
+          if(!res.ok){
+            throw Error('End point cannot be accessed!')
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setBlogs(data);
+          setPending(false)
+        })
+        .catch(err => {
+          setError(err.message)
+          setPending(false)
+        })
     }, 500);
   }, []);
 
@@ -66,6 +74,7 @@ const Home = () => {
   return (
     <div className="home">
       <h2>Home Page</h2>
+      {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {blogs && (
         <BlogList
