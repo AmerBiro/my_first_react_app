@@ -37,6 +37,13 @@ const Home = () => {
      { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
   ]);
 
+  const deleteBlog = (id) => {
+    //Initilaizing a new array with filtered blogs
+    const newBlogs = blogs.filter((blog) => blog.id !== id)
+    // replacing previous array with a new array
+    setBlogs(newBlogs)
+  }
+
   const noBlogs = blogs.length
   return (
 
@@ -44,7 +51,10 @@ const Home = () => {
       <h2>Home Page</h2>
      <BlogList blogs={blogs} 
      top={"Number of blogs found " + noBlogs} 
-     bottom={"Next page"}/>
+     bottom={"Next page"}
+     deleteBlog={deleteBlog}
+    //  TODO: add delete function to BlogList via props
+     />
 
      <BlogList blogs={blogs.filter ((blog) => blog.author === 'mario')}
      top="Blogs written by Mario"     
