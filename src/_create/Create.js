@@ -4,12 +4,21 @@ const Create = () => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("");
+  const [isPending, setIsPending] = useState(false);
 
   const handleSubmit = (e) => {
-     e.preventDefault()
-     const blog = {title, body, author}
-     console.log(blog)
-  }
+    e.preventDefault();
+    setIsPending(true);
+    const blog = { title, body, author };
+    fetch("http://localhost:8000/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(blog),
+    }).then(() => {
+      console.log("new blog added");
+      setIsPending(false);
+    });
+  };
 
   return (
     <div className="create">
@@ -31,15 +40,14 @@ const Create = () => {
         ></textarea>
 
         <label>Blog author</label>
-        <select
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-        >
+        <select value={author} onChange={(e) => setAuthor(e.target.value)}>
           <option value="author1">Author 1</option>
           <option value="author2">Author 2</option>
         </select>
-        <button>Add blog</button>
+        {!isPending && <button>Add blog</button>}
+        {isPending && <button disabled>Adding a new blog</button>}
       </form>
+      {/* {isPending && 'Adding a new blog...'} */}
     </div>
   );
 };
