@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 
 const useFetch = (url) => {
-
   const [data, setData] = useState(null);
   const [isPending, setPending] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-     const abortConst = new AbortController()
+    const abortConst = new AbortController();
     setTimeout(() => {
-      fetch(url, {signal:  abortConst.signal})
+      fetch(url, { signal: abortConst.signal })
         .then((res) => {
           if (!res.ok) {
             throw Error("End point cannot be accessed!");
@@ -22,11 +21,15 @@ const useFetch = (url) => {
           setError(null);
         })
         .catch((err) => {
-          setError(err.message);
-          setPending(false);
+          if (err.name === "AbortError") {
+            console.log("fetch aborted");
+          } else {
+            setError(err.message);
+            setPending(false);
+          }
         });
     }, 500);
-    return () => abortConst.abort()
+    return () => abortConst.abort();
   }, [url]);
 
   return { data, isPending, error };
